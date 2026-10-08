@@ -836,7 +836,7 @@
     $("#film-download").href = videoConfig.src || source.src;
     $("#film-download").download = videoConfig.downloadName || "Doji-15th-Birthday-Film.mp4";
     $(".birthday-film-dialog__meta p").innerHTML = `<span aria-hidden="true">♪</span> ${videoConfig.soundtrack || "birthday soundtrack"}`;
-    $(".birthday-film-dialog__meta > span").textContent = `${videoConfig.durationLabel || "00:59"} · portrait film`;
+    $(".birthday-film-dialog__meta > span").textContent = `${videoConfig.durationLabel || "00:36"} · portrait film`;
     birthdayVideo.load();
 
     $("#premiere-close").addEventListener("click", closePremiere);

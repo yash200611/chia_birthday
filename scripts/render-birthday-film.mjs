@@ -12,7 +12,9 @@ const soundtrack = path.join(root, "Olivia Rodrigo - deja vu (Official Video).mp
 const width = 720;
 const height = 1280;
 const fps = 30;
-const fade = 0.75;
+const fade = 0.32;
+// First chorus only: “So when you gonna tell her…” through the final “déjà vu, huh?”
+const soundtrackStart = 51.2;
 const didot = "/System/Library/Fonts/Supplemental/Didot.ttc";
 const avenir = "/System/Library/Fonts/Avenir Next.ttc";
 const scriptFont = "/System/Library/Fonts/Noteworthy.ttc";
@@ -20,21 +22,26 @@ const scriptFont = "/System/Library/Fonts/Noteworthy.ttc";
 const scenes = [
   {
     path: "dist/assets/summer-cove-hero.jpg",
-    duration: 5,
+    duration: 2.8,
     kind: "intro",
   },
-  { path: "dist/assets/photos/photo-08.jpg", duration: 6.2, caption: "AN OPENING CHAPTER" },
-  { path: "dist/assets/photos/photo-07.jpg", duration: 6.2, caption: "GROWING INTO HER OWN LIGHT" },
-  { path: "dist/assets/photos/photo-06.jpg", duration: 6.2, caption: "THE FAMILY EPISODE" },
-  { path: "dist/assets/photos/photo-04.jpg", duration: 6.2, caption: "SIBLING SCENE" },
-  { path: "dist/assets/photos/photo-03.jpg", duration: 6.2, caption: "RIGHT HERE, RIGHT NOW" },
-  { path: "dist/assets/photos/photo-02.jpg", duration: 6.2, caption: "ALL TOGETHER NOW" },
-  { path: "dist/assets/photos/photo-05.jpg", duration: 6.2, caption: "THROUGH HER LENS" },
-  { path: "dist/assets/photos/photo-09.jpg", duration: 6.2, caption: "JOY, UNFILTERED" },
-  { path: "dist/assets/photos/photo-01.jpg", duration: 6.2, caption: "MAIN-CHARACTER ENERGY" },
+  { path: "dist/assets/photos/photo-13.jpg", duration: 2.46, caption: "WHERE THE STORY BEGAN" },
+  { path: "dist/assets/photos/photo-12.jpg", duration: 2.46, caption: "LITTLE ADVENTURES" },
+  { path: "dist/assets/photos/photo-08.jpg", duration: 2.46, caption: "AN OPENING CHAPTER" },
+  { path: "dist/assets/photos/photo-07.jpg", duration: 2.46, caption: "GROWING INTO HER OWN LIGHT" },
+  { path: "dist/assets/photos/photo-06.jpg", duration: 2.46, caption: "THE FAMILY EPISODE" },
+  { path: "dist/assets/photos/photo-04.jpg", duration: 2.46, caption: "SIBLING SCENE" },
+  { path: "dist/assets/photos/photo-03.jpg", duration: 2.46, caption: "RIGHT HERE, RIGHT NOW" },
+  { path: "dist/assets/photos/photo-02.jpg", duration: 2.46, caption: "ALL TOGETHER NOW" },
+  { path: "dist/assets/photos/photo-05.jpg", duration: 2.46, caption: "THROUGH HER LENS" },
+  { path: "dist/assets/photos/photo-09.jpg", duration: 2.46, caption: "JOY, UNFILTERED" },
+  { path: "dist/assets/photos/photo-01.jpg", duration: 2.46, caption: "MAIN-CHARACTER ENERGY" },
+  { path: "dist/assets/photos/photo-11.jpg", duration: 2.46, caption: "SUNSHINE LOOKS GOOD ON HER" },
+  { path: "dist/assets/photos/photo-10.jpg", duration: 2.46, caption: "HER OWN KIND OF MAGIC" },
+  { path: "dist/assets/photos/photo-14.jpg", duration: 2.46, caption: "MIRROR MOMENT" },
   {
     path: "dist/assets/photos/photo-01.jpg",
-    duration: 6,
+    duration: 3.56,
     kind: "outro",
   },
 ];
@@ -116,14 +123,14 @@ scenes.forEach((scene, index) => {
   filters.push(scene.kind ? titleCard(index, scene) : photoScene(index, scene));
 });
 
-const transitions = ["fade", "smoothleft", "circleopen", "dissolve", "fade", "smoothright", "circleclose", "dissolve", "fade", "smoothleft"];
+const transitions = ["fade", "smoothleft", "circleopen", "dissolve", "fade", "smoothright", "circleclose", "dissolve"];
 let cumulative = scenes[0].duration;
 let previous = "s0";
 for (let index = 1; index < scenes.length; index += 1) {
   const offset = cumulative - fade * index;
   const outputLabel = index === scenes.length - 1 ? "video" : `x${index}`;
   filters.push(
-    `[${previous}][s${index}]xfade=transition=${transitions[index - 1]}:duration=${fade}:offset=${offset.toFixed(2)}[${outputLabel}]`,
+    `[${previous}][s${index}]xfade=transition=${transitions[(index - 1) % transitions.length]}:duration=${fade}:offset=${offset.toFixed(2)}[${outputLabel}]`,
   );
   previous = outputLabel;
   cumulative += scenes[index].duration;
@@ -132,8 +139,8 @@ for (let index = 1; index < scenes.length; index += 1) {
 const totalDuration = scenes.reduce((sum, scene) => sum + scene.duration, 0) - fade * (scenes.length - 1);
 const audioIndex = scenes.length;
 filters.push(
-  `[${audioIndex}:a]atrim=start=0:end=${totalDuration.toFixed(2)},asetpts=PTS-STARTPTS,` +
-    `afade=t=in:st=0:d=1.2,afade=t=out:st=${(totalDuration - 2.8).toFixed(2)}:d=2.8,volume=0.92[audio]`,
+  `[${audioIndex}:a]atrim=start=${soundtrackStart.toFixed(2)}:end=${(soundtrackStart + totalDuration).toFixed(2)},asetpts=PTS-STARTPTS,` +
+    `afade=t=in:st=0:d=0.25,afade=t=out:st=${(totalDuration - 0.5).toFixed(2)}:d=0.5,volume=0.96[audio]`,
 );
 
 fs.mkdirSync(outputDirectory, { recursive: true });

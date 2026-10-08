@@ -2,14 +2,14 @@
 
 A mobile-first birthday film and interactive five-chapter story for Doji:
 
-1. A 59-second portrait MP4 with all nine photos, a tap-to-play premiere popup, and a download control
+1. A 36-second portrait MP4 with all 14 available photos, a tap-to-play premiere popup, and a download control
 2. User-started interactive cut with cinematic dissolves, scene progress, pause, replay, skip, and reduced-motion support
 3. Sunset opening with overlapping Polaroids
 4. “Previously, in your life…” filmstrip
 5. Draggable desktop / scroll-safe mobile scrapbook
 6. Exactly 15 message reveals, a sibling letter, 15-candle cake, wish, confetti, and replay
 
-The nine supplied photos are preserved in the workspace as `File 1.jpeg` through `File 9.jpeg`. Web-ready copies live in `dist/assets/photos/` and are used by the site. The full uncropped image is always available in the photo viewer.
+The original nine website photos and five extra film photos have web-ready copies in `dist/assets/photos/`. The interactive story still uses the original nine-photo collection; the downloadable film uses all 14 currently available photos.
 
 ## Personalize everything in one place
 
@@ -39,7 +39,7 @@ The arrays can grow or shrink. Portrait and landscape images are detected automa
 
 ## Birthday film
 
-The finished film lives at `dist/assets/video/doji-fifteenth-birthday.mp4`. It is a 59-second portrait MP4 with the soundtrack mixed in. On page load, the premiere popup waits for an intentional tap before opening and playing the video. The film dialog also includes a direct download control.
+The finished film lives at `dist/assets/video/doji-fifteenth-birthday.mp4`. It is a 36-second portrait MP4 using all 14 available photos and only the requested first-chorus excerpt, from “So when you gonna tell her…” through the last “déjà vu, huh?”. On page load, the premiere popup waits for an intentional tap before opening and playing the video. The film dialog also includes a direct download control.
 
 To render the film again, install FFmpeg and pass its executable path to the renderer:
 

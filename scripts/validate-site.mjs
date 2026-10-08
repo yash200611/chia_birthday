@@ -16,6 +16,11 @@ const coreFiles = [
   "app.js",
   "assets/favicon.svg",
   birthdayVideoPath,
+  "assets/photos/photo-10.jpg",
+  "assets/photos/photo-11.jpg",
+  "assets/photos/photo-12.jpg",
+  "assets/photos/photo-13.jpg",
+  "assets/photos/photo-14.jpg",
 ];
 
 function readDistFile(relativePath) {

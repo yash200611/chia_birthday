@@ -175,7 +175,7 @@
       poster: "assets/summer-cove-hero.jpg",
       downloadName: "Doji-15th-Birthday-Film.mp4",
       title: "The Summer She Turned Fifteen",
-      durationLabel: "00:59",
+      durationLabel: "00:36",
       soundtrack: "deja vu · Olivia Rodrigo",
     },
     timeline,
