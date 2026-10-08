@@ -7,6 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const errors = [];
 const notices = [];
+const birthdayVideoPath = "assets/video/doji-fifteenth-birthday.mp4";
 
 const coreFiles = [
   "index.html",
@@ -14,6 +15,7 @@ const coreFiles = [
   "content.js",
   "app.js",
   "assets/favicon.svg",
+  birthdayVideoPath,
 ];
 
 function readDistFile(relativePath) {
@@ -77,14 +79,17 @@ const controlIds = [
   ["envelope-button", "letter envelope control"],
   ["wish-button", "make-a-wish control"],
   ["replay-button", "celebration replay control"],
+  ["premiere-close", "birthday-film invitation close control"],
+  ["premiere-watch", "birthday-film invitation watch control"],
+  ["premiere-explore", "birthday-film invitation explore control"],
+  ["birthday-film-close", "finished-film close control"],
+  ["film-interactive", "interactive-film control"],
   ["episode-close", "birthday-film close control"],
   ["episode-prev", "birthday-film previous-scene control"],
   ["episode-play", "birthday-film play/pause control"],
   ["episode-next", "birthday-film next-scene control"],
   ["episode-soundtrack", "birthday-film soundtrack control"],
   ["episode-explore", "birthday-film explore control"],
-  ["soundtrack-close", "soundtrack-dialog close control"],
-  ["soundtrack-load", "Spotify consent/load control"],
 ];
 for (const [id, description] of controlIds) {
   requireId(id, description);
@@ -93,12 +98,37 @@ for (const [id, description] of controlIds) {
   }
 }
 
-if (!/<audio\b[^>]*\bid\s*=\s*(["'])birthday-audio\1/i.test(html)) {
-  errors.push("Missing birthday audio element: <audio id=\"birthday-audio\">");
+for (const id of ["premiere-dialog", "birthday-film-dialog", "episode-player"]) {
+  if (!hasElementWithId("dialog", id)) errors.push(`Missing cinematic dialog: <dialog id="${id}">`);
 }
 
-for (const id of ["episode-player", "soundtrack-dialog"]) {
-  if (!hasElementWithId("dialog", id)) errors.push(`Missing cinematic dialog: <dialog id="${id}">`);
+const birthdayVideo = html.match(
+  /<video\b[^>]*\bid\s*=\s*(["'])birthday-video\1[^>]*>[\s\S]*?<\/video>/i,
+)?.[0];
+if (!birthdayVideo) {
+  errors.push('Missing finished birthday film element: <video id="birthday-video">');
+} else {
+  const escapedVideoPath = birthdayVideoPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const hasVideoSource = new RegExp(
+    `\\b(?:src|href)\\s*=\\s*(["'])(?:\\./)?${escapedVideoPath}(?:[?#][^"']*)?\\1`,
+    "i",
+  ).test(birthdayVideo);
+  if (!hasVideoSource) errors.push(`Birthday video element must load ${birthdayVideoPath}`);
+}
+
+const filmDownload = html.match(/<a\b[^>]*\bid\s*=\s*(["'])film-download\1[^>]*>/i)?.[0];
+if (!filmDownload) {
+  errors.push('Missing birthday-film download control: <a id="film-download">');
+} else {
+  const escapedVideoPath = birthdayVideoPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const hasVideoHref = new RegExp(
+    `\\bhref\\s*=\\s*(["'])(?:\\./)?${escapedVideoPath}(?:[?#][^"']*)?\\1`,
+    "i",
+  ).test(filmDownload);
+  if (!hasVideoHref) errors.push(`Birthday-film download control must link to ${birthdayVideoPath}`);
+  if (!/\bdownload(?:\s*=\s*(["']).*?\1|\s|>)/i.test(filmDownload)) {
+    errors.push("Birthday-film download control must include the download attribute");
+  }
 }
 
 function readableHtmlText(source) {
@@ -223,9 +253,13 @@ if (birthdayContent) {
     if (unknownFilmIds.length) errors.push(`Birthday film references unknown photo IDs: ${unknownFilmIds.join(", ")}`);
   }
 
-  if (birthdayContent.audio?.provider === "spotify" && !/^https:\/\/open\.spotify\.com\/embed\//.test(birthdayContent.audio.embedUrl || "")) {
-    errors.push("Spotify soundtrack must use an official open.spotify.com/embed URL");
+  const video = birthdayContent.video;
+  if (!video || typeof video !== "object" || Array.isArray(video) || video.enabled !== true) {
+    errors.push("BIRTHDAY_CONTENT must include an enabled video configuration object");
+  } else if (video.src !== birthdayVideoPath) {
+    errors.push(`BIRTHDAY_CONTENT.video.src must be ${birthdayVideoPath}`);
   }
+
 }
 
 function countClassToken(source, token) {
@@ -375,7 +409,7 @@ if (errors.length) {
 
 const acceptedCandleDescription = staticCandleCount === 15 ? "15 static candles" : "a verified 15-candle renderer";
 console.log(
-  `Site validation passed: ${ids.length} unique IDs, 5 chapters, 15 messages, ${acceptedCandleDescription}, and all required local assets present.`,
+  `Site validation passed: ${ids.length} unique IDs, 5 chapters, 15 messages, ${acceptedCandleDescription}, the downloadable birthday film, and all required local assets present.`,
 );
 if (notices.length) {
   console.log(`${[...new Set(notices)].length} optional personal asset(s) can be added later.`);

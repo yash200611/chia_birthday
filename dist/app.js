@@ -416,7 +416,6 @@
   }
 
   const viewer = $("#photo-viewer");
-  const soundtrackDialog = $("#soundtrack-dialog");
   let viewerIndex = 0;
   let viewerSwipeStart = null;
 
@@ -467,9 +466,8 @@
     $("#viewer-next").addEventListener("click", () => moveViewer(1));
     $("#message-dialog-close").addEventListener("click", () => closeDialog(messageDialog));
     $("#bonus-close").addEventListener("click", () => closeDialog($("#bonus-dialog")));
-    $("#soundtrack-close").addEventListener("click", () => closeDialog(soundtrackDialog));
 
-    [viewer, messageDialog, $("#bonus-dialog"), soundtrackDialog].forEach((dialog) => {
+    [viewer, messageDialog, $("#bonus-dialog")].forEach((dialog) => {
       dialog.addEventListener("click", (event) => {
         if (event.target === dialog || event.target.classList.contains("photo-viewer__panel")) {
           closeDialog(dialog);
@@ -758,8 +756,8 @@
       else resumeEpisode();
     });
     $("#episode-soundtrack").addEventListener("click", () => {
-      pauseEpisode();
-      openSoundtrack();
+      closeEpisode();
+      openBirthdayVideo({ play: true });
     });
     episodePlayer.addEventListener("close", () => {
       pauseEpisode();
@@ -787,34 +785,10 @@
     });
   }
 
-  const audio = $("#birthday-audio");
+  const premiereDialog = $("#premiere-dialog");
+  const birthdayFilmDialog = $("#birthday-film-dialog");
+  const birthdayVideo = $("#birthday-video");
   const musicToggle = $("#music-toggle");
-  const musicText = $(".music-control__text", musicToggle);
-
-  function setMusicUI(state) {
-    const playing = state === "playing";
-    musicToggle.setAttribute("aria-pressed", String(playing));
-    musicToggle.setAttribute(
-      "aria-label",
-      state === "unavailable"
-        ? "Birthday music unavailable"
-        : state === "external"
-          ? `Open the official Spotify player for ${content.audio.label || "the birthday soundtrack"}`
-        : playing
-          ? `Pause ${content.audio.label || "birthday music"}`
-          : `Play ${content.audio.label || "birthday music"}`,
-    );
-    musicText.textContent =
-      state === "unavailable"
-        ? "music unavailable"
-        : state === "external"
-          ? `${content.audio.track || "soundtrack"} · Spotify`
-        : playing
-          ? "music playing"
-          : state === "loading"
-            ? "loading music"
-            : "play music";
-  }
 
   function showToast(message) {
     const toast = $("#status-toast");
@@ -824,94 +798,94 @@
     showToast.timeout = window.setTimeout(() => toast.classList.remove("is-visible"), 3200);
   }
 
-  async function playAudio({ quiet = false } = {}) {
-    if (!content.audio?.enabled || !content.audio.src) return false;
-    try {
-      setMusicUI("loading");
-      await audio.play();
-      safeStorageSet("season15:audioPaused", "false");
-      return true;
-    } catch {
-      setMusicUI("paused");
-      if (!quiet) showToast("The soundtrack could not start, but the story works beautifully in silence.");
-      return false;
-    }
-  }
-
-  function openSoundtrack() {
-    if (!content.audio?.embedUrl) {
-      showToast("The soundtrack player is unavailable right now.");
-      return;
-    }
-    if (episodePlayer.open) pauseEpisode();
-    $("#soundtrack-title").textContent = content.audio.track || "Birthday soundtrack";
-    $(".soundtrack-dialog__artist").textContent = content.audio.artist || "";
-    $("#soundtrack-link").href = content.audio.trackUrl || content.audio.embedUrl;
-    if (!soundtrackDialog.open) soundtrackDialog.showModal();
+  function closePremiere() {
+    if (premiereDialog.open) premiereDialog.close();
     syncBodyLock();
   }
 
-  function loadSoundtrackEmbed() {
-    const container = $("#soundtrack-embed");
-    if ($("iframe", container) || !content.audio?.embedUrl) return;
-    const frame = document.createElement("iframe");
-    frame.title = `Spotify player: ${content.audio.track || "birthday soundtrack"} by ${content.audio.artist || "the selected artist"}`;
-    frame.src = content.audio.embedUrl;
-    frame.width = "100%";
-    frame.height = "152";
-    frame.loading = "lazy";
-    frame.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-    frame.referrerPolicy = "strict-origin-when-cross-origin";
-    container.replaceChildren(frame);
+  function closeBirthdayVideo() {
+    birthdayVideo.pause();
+    if (birthdayFilmDialog.open) birthdayFilmDialog.close();
+    syncBodyLock();
   }
 
-  function setupAudio() {
-    const hasLocalAudio = Boolean(content.audio?.enabled && content.audio.src);
-    const hasExternalPlayer = Boolean(content.audio?.embedUrl);
-
-    if (!hasLocalAudio && hasExternalPlayer) {
-      musicToggle.disabled = false;
-      setMusicUI("external");
-      musicToggle.addEventListener("click", openSoundtrack);
-      $("#soundtrack-load").addEventListener("click", loadSoundtrackEmbed);
-      return;
+  function openBirthdayVideo({ play = false } = {}) {
+    if (!content.video?.enabled || !content.video.src) return false;
+    closePremiere();
+    if (episodePlayer.open) {
+      pauseEpisode();
+      episodePlayer.close();
     }
-
-    if (!hasLocalAudio) {
-      musicToggle.disabled = true;
-      setMusicUI("unavailable");
-      return;
-    }
-
-    audio.src = content.audio.src;
-    musicToggle.disabled = false;
-    setMusicUI("paused");
-    audio.addEventListener("play", () => setMusicUI("playing"));
-    audio.addEventListener("pause", () => setMusicUI("paused"));
-    audio.addEventListener("ended", () => setMusicUI("paused"));
-    audio.addEventListener("error", () => {
-      setMusicUI("unavailable");
-      musicToggle.disabled = true;
-      showToast("The soundtrack is unavailable right now.");
-    });
-    musicToggle.addEventListener("click", async () => {
-      if (audio.paused) await playAudio();
-      else {
-        audio.pause();
-        safeStorageSet("season15:audioPaused", "true");
+    if (!birthdayFilmDialog.open) birthdayFilmDialog.showModal();
+    syncBodyLock();
+    if (play) {
+      const playRequest = birthdayVideo.play();
+      if (playRequest) {
+        playRequest.catch(() => showToast("Tap play to begin Doji's birthday film."));
       }
+    }
+    return true;
+  }
+
+  function setupBirthdayVideo() {
+    const videoConfig = content.video || {};
+    const source = $("source", birthdayVideo);
+    source.src = videoConfig.src || source.src;
+    birthdayVideo.poster = videoConfig.poster || birthdayVideo.poster;
+    $("#birthday-film-title").textContent = videoConfig.title || "The Summer She Turned Fifteen";
+    $("#film-download").href = videoConfig.src || source.src;
+    $("#film-download").download = videoConfig.downloadName || "Doji-15th-Birthday-Film.mp4";
+    $(".birthday-film-dialog__meta p").innerHTML = `<span aria-hidden="true">♪</span> ${videoConfig.soundtrack || "birthday soundtrack"}`;
+    $(".birthday-film-dialog__meta > span").textContent = `${videoConfig.durationLabel || "00:59"} · portrait film`;
+    birthdayVideo.load();
+
+    $("#premiere-close").addEventListener("click", closePremiere);
+    $("#premiere-explore").addEventListener("click", () => {
+      closePremiere();
+      $("#timeline").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
     });
+    $("#premiere-watch").addEventListener("click", () => openBirthdayVideo({ play: true }));
+    $("#birthday-film-close").addEventListener("click", closeBirthdayVideo);
+    $("#film-interactive").addEventListener("click", () => {
+      closeBirthdayVideo();
+      openEpisode();
+    });
+    musicToggle.addEventListener("click", () => openBirthdayVideo({ play: true }));
+
+    [premiereDialog, birthdayFilmDialog].forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        if (event.target !== dialog) return;
+        if (dialog === birthdayFilmDialog) closeBirthdayVideo();
+        else closePremiere();
+      });
+      dialog.addEventListener("close", () => {
+        if (dialog === birthdayFilmDialog) birthdayVideo.pause();
+        syncBodyLock();
+      });
+    });
+
+    birthdayVideo.addEventListener("play", () => musicToggle.classList.add("is-playing"));
+    birthdayVideo.addEventListener("pause", () => musicToggle.classList.remove("is-playing"));
+    birthdayVideo.addEventListener("ended", () => {
+      musicToggle.classList.remove("is-playing");
+      showToast("Happy 15th, Doji ♡ You can download the film to keep it.");
+    });
+    birthdayVideo.addEventListener("error", () => showToast("The film could not load. Try the download button instead."));
+
+    window.setTimeout(() => {
+      if (!premiereDialog.open && !birthdayFilmDialog.open && !document.querySelector("dialog[open]")) {
+        premiereDialog.showModal();
+        syncBodyLock();
+      }
+    }, reducedMotion.matches ? 100 : 650);
   }
 
   function setupStartButton() {
     $("#start-story").addEventListener("click", (event) => {
       event.preventDefault();
-      const openedEpisode = openEpisode();
-      if (!openedEpisode) {
+      const openedVideo = openBirthdayVideo({ play: true });
+      if (!openedVideo) {
         $("#timeline").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
-      }
-      if (content.audio?.enabled && content.audio.src && safeStorageGet("season15:audioPaused", "false") !== "true") {
-        void playAudio({ quiet: true });
       }
     });
   }
@@ -1042,7 +1016,7 @@
   setupDialogs();
   setupTimelineControls();
   setupEpisode();
-  setupAudio();
+  setupBirthdayVideo();
   setupStartButton();
   setupEnvelope();
   setupCelebration();

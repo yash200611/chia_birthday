@@ -2,11 +2,12 @@
 
 A mobile-first birthday film and interactive five-chapter story for Doji:
 
-1. User-started full-screen film with all nine photos, cinematic dissolves, scene progress, pause, replay, skip, and reduced-motion support
-2. Sunset opening with overlapping Polaroids
-3. “Previously, in your life…” filmstrip
-4. Draggable desktop / scroll-safe mobile scrapbook
-5. Exactly 15 message reveals, a sibling letter, 15-candle cake, wish, confetti, and replay
+1. A 59-second portrait MP4 with all nine photos, a tap-to-play premiere popup, and a download control
+2. User-started interactive cut with cinematic dissolves, scene progress, pause, replay, skip, and reduced-motion support
+3. Sunset opening with overlapping Polaroids
+4. “Previously, in your life…” filmstrip
+5. Draggable desktop / scroll-safe mobile scrapbook
+6. Exactly 15 message reveals, a sibling letter, 15-candle cake, wish, confetti, and replay
 
 The nine supplied photos are preserved in the workspace as `File 1.jpeg` through `File 9.jpeg`. Web-ready copies live in `dist/assets/photos/` and are used by the site. The full uncropped image is always available in the photo viewer.
 
@@ -18,11 +19,11 @@ Edit [`dist/content.js`](dist/content.js). The labeled sections contain:
 - `sender`: your name and handwritten sign-off
 - `hero`: the featured and Polaroid photo IDs
 - `film`: scene order and scene timing for the full-screen birthday film
+- `video`: the rendered MP4 path, poster, download name, title, duration label, and soundtrack credit
 - `timeline`: ordered photos for the recap
 - `scrapbook`: the draggable photo collection
 - `messages`: exactly 15 birthday notes
 - `letter`: the final sibling letter
-- `audio`: optional owned/licensed local audio or a separate official music embed
 - `bonusScene`: optional hidden seashell scene
 
 The current copy is complete and personalized for Doji. It stays intentionally general where no real memory details were supplied, so you can safely replace any line with a more specific family story later.
@@ -36,23 +37,21 @@ The current copy is complete and personalized for Doji. It stays intentionally g
 
 The arrays can grow or shrink. Portrait and landscape images are detected automatically, later images lazy-load, and a styled non-personal placeholder appears if any file is unavailable.
 
-## Music
+## Birthday film
 
-The site offers the official Spotify embed for “Feather” by Sabrina Carpenter. It loads only after a visitor chooses to load it, may require a Spotify login, and stays separate from the photo film rather than being synchronized to it.
+The finished film lives at `dist/assets/video/doji-fifteenth-birthday.mp4`. It is a 59-second portrait MP4 with the soundtrack mixed in. On page load, the premiere popup waits for an intentional tap before opening and playing the video. The film dialog also includes a direct download control.
 
-To use a local track you own or are allowed to use, place it in `dist/assets/audio/`, then edit:
+To render the film again, install FFmpeg and pass its executable path to the renderer:
 
-Put a track you own or are allowed to use in `dist/assets/audio/`, then edit:
-
-```js
-audio: {
-  enabled: true,
-  src: "assets/audio/your-track.mp3",
-  label: "Track title",
-}
+```sh
+node scripts/render-birthday-film.mjs /absolute/path/to/ffmpeg
 ```
 
-Playback only begins after an intentional tap, the control reflects real media events, failures fall back to silence, and the visitor’s pause choice is remembered when browser storage works.
+The command replaces the MP4 at the path above. Run `npm run check` afterward to verify that the rendered file, configuration, dialogs, video player, and download control are all present.
+
+## Music
+
+The finished film currently uses “deja vu” by Olivia Rodrigo. Make sure you have permission to share the soundtrack anywhere you publish or send the MP4.
 
 ## Enable the bonus scene
 

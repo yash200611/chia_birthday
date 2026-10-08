@@ -169,21 +169,19 @@
       outroDuration: 5600,
       photoIds: ["photo-08", "photo-07", "photo-06", "photo-04", "photo-03", "photo-02", "photo-05", "photo-09", "photo-01"],
     },
+    video: {
+      enabled: true,
+      src: "assets/video/doji-fifteenth-birthday.mp4",
+      poster: "assets/summer-cove-hero.jpg",
+      downloadName: "Doji-15th-Birthday-Film.mp4",
+      title: "The Summer She Turned Fifteen",
+      durationLabel: "00:59",
+      soundtrack: "deja vu · Olivia Rodrigo",
+    },
     timeline,
     scrapbook,
     messages,
     letter,
-    // Spotify playback stays separate from the birthday film and begins only after a tap.
-    audio: {
-      enabled: false,
-      src: "",
-      label: "Feather · Sabrina Carpenter",
-      provider: "spotify",
-      track: "Feather",
-      artist: "Sabrina Carpenter",
-      trackUrl: "https://open.spotify.com/track/2Zo1PcszsT9WQ0ANntJbID",
-      embedUrl: "https://open.spotify.com/embed/track/2Zo1PcszsT9WQ0ANntJbID?utm_source=generator&theme=0",
-    },
     // EDIT HERE: enable only after adding both a real photo and an inside-joke caption.
     bonusScene: {
       enabled: false,

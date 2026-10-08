@@ -34,9 +34,9 @@
         <a href="#messages">15 notes</a>
         <a href="#letter">A wish</a>
       </nav>
-      <button class="music-control" id="music-toggle" type="button" aria-pressed="false" aria-haspopup="dialog">
-        <span class="music-control__disc" aria-hidden="true">♪</span>
-        <span class="music-control__text">Feather · Spotify</span>
+      <button class="music-control" id="music-toggle" type="button" aria-haspopup="dialog" aria-label="Watch Doji's birthday film">
+        <span class="music-control__disc" aria-hidden="true">▶</span>
+        <span class="music-control__text">birthday film · 00:59</span>
       </button>
     </header>
 
@@ -71,7 +71,7 @@
           <a class="story-button hero-stagger" id="start-story" href="#timeline" aria-haspopup="dialog">
             <span>Play Doji's birthday film</span><i aria-hidden="true">▶</i>
           </a>
-          <p class="soundtrack-credit hero-stagger"><span aria-hidden="true">♪</span> soundtrack pick · Feather by Sabrina Carpenter</p>
+          <p class="soundtrack-credit hero-stagger"><span aria-hidden="true">♪</span> soundtrack · deja vu by Olivia Rodrigo</p>
         </div>
 
         <div class="hero-polaroids" id="hero-polaroids" role="group" aria-label="Featured birthday photos"></div>
@@ -79,6 +79,9 @@
         <span class="hero-doodle hero-doodle--one" aria-hidden="true">☆</span>
         <span class="hero-doodle hero-doodle--two" aria-hidden="true">✧</span>
         <span class="hero-handwriting" aria-hidden="true">happy 15th ♡</span>
+        <div class="hero-sparkles" aria-hidden="true">
+          <span>♡</span><span>✦</span><span>♡</span><span>✧</span><span>♡</span>
+        </div>
       </section>
 
       <section class="timeline chapter paper-section" id="timeline" aria-labelledby="timeline-title">
@@ -224,6 +227,62 @@
       </section>
     </main>
 
+    <dialog class="premiere-dialog" id="premiere-dialog" aria-labelledby="premiere-title" aria-describedby="premiere-copy">
+      <div class="premiere-card">
+        <button class="premiere-card__close" id="premiere-close" type="button" aria-label="Close birthday film invitation">×</button>
+        <div class="premiere-ribbon" aria-hidden="true"><span></span></div>
+        <div class="premiere-card__sparkles" aria-hidden="true">
+          <span>✦</span><span>♡</span><span>✧</span><span>♡</span>
+        </div>
+        <p class="premiere-card__eyebrow">A very pink birthday premiere</p>
+        <p class="premiere-card__number" aria-hidden="true">15</p>
+        <h2 id="premiere-title">Doji, your film is ready!</h2>
+        <p id="premiere-copy">Nine memories, one dreamy soundtrack, and a whole new season starring you.</p>
+        <button class="premiere-card__watch" id="premiere-watch" type="button">
+          <span class="premiere-card__play" aria-hidden="true">▶</span>
+          <span><strong>Watch the birthday film</strong><small>59 seconds · sound on</small></span>
+        </button>
+        <button class="premiere-card__explore" id="premiere-explore" type="button">Explore the story first <span aria-hidden="true">↓</span></button>
+        <p class="premiere-card__note"><span aria-hidden="true">♡</span> made especially for Doji</p>
+      </div>
+    </dialog>
+
+    <dialog class="birthday-film-dialog" id="birthday-film-dialog" aria-labelledby="birthday-film-title">
+      <div class="birthday-film-dialog__shell">
+        <header class="birthday-film-dialog__header">
+          <div>
+            <p>Season 15 · birthday edition</p>
+            <h2 id="birthday-film-title">The Summer She Turned Fifteen</h2>
+          </div>
+          <button class="birthday-film-dialog__close" id="birthday-film-close" type="button" aria-label="Close birthday film">×</button>
+        </header>
+
+        <div class="birthday-film-dialog__frame">
+          <span class="birthday-film-dialog__corner birthday-film-dialog__corner--one" aria-hidden="true">♡</span>
+          <span class="birthday-film-dialog__corner birthday-film-dialog__corner--two" aria-hidden="true">✦</span>
+          <div class="birthday-film-dialog__video-wrap">
+            <video id="birthday-video" controls playsinline preload="metadata" poster="assets/summer-cove-hero.jpg">
+              <source src="assets/video/doji-fifteenth-birthday.mp4" type="video/mp4" />
+              Your browser cannot play this birthday film. You can still download it below.
+            </video>
+          </div>
+        </div>
+
+        <footer class="birthday-film-dialog__footer">
+          <div class="birthday-film-dialog__meta">
+            <p><span aria-hidden="true">♪</span> deja vu · Olivia Rodrigo</p>
+            <span>00:59 · portrait film</span>
+          </div>
+          <div class="birthday-film-dialog__actions">
+            <button id="film-interactive" type="button">Interactive cut</button>
+            <a id="film-download" href="assets/video/doji-fifteenth-birthday.mp4" download="Doji-15th-Birthday-Film.mp4">
+              <span aria-hidden="true">↓</span> Download video
+            </a>
+          </div>
+        </footer>
+      </div>
+    </dialog>
+
     <dialog class="episode-player" id="episode-player" aria-labelledby="episode-title">
       <div class="episode-player__screen">
         <div class="episode-player__shots" aria-hidden="true">
@@ -256,7 +315,7 @@
               <span class="episode-player__counter" id="episode-counter">01 / 11</span>
             </div>
             <button class="episode-player__soundtrack" id="episode-soundtrack" type="button" aria-haspopup="dialog">
-              <span aria-hidden="true">♪</span><span><small>Optional soundtrack</small><strong>Feather · Sabrina Carpenter</strong></span>
+              <span aria-hidden="true">♪</span><span><small>Watch the finished film</small><strong>deja vu · Olivia Rodrigo</strong></span>
             </button>
             <button class="episode-player__explore" id="episode-explore" type="button">Explore the full story <span aria-hidden="true">↓</span></button>
           </div>
@@ -307,24 +366,6 @@
       </div>
     </dialog>
 
-    <dialog class="soundtrack-dialog" id="soundtrack-dialog" aria-labelledby="soundtrack-title">
-      <div class="soundtrack-dialog__card">
-        <button class="dialog-close" id="soundtrack-close" type="button" aria-label="Close soundtrack player">×</button>
-        <p class="chapter-kicker">Doji's soundtrack pick</p>
-        <h2 id="soundtrack-title">Feather</h2>
-        <p class="soundtrack-dialog__artist">Sabrina Carpenter</p>
-        <div class="soundtrack-dialog__embed" id="soundtrack-embed">
-          <button class="soundtrack-dialog__load" id="soundtrack-load" type="button">
-            <span aria-hidden="true">♪</span>
-            Load the official Spotify player
-          </button>
-        </div>
-        <p class="soundtrack-dialog__note">Spotify playback is optional and separate from the birthday film. It may require a Spotify login, and loading the player may set Spotify cookies.</p>
-        <a class="soundtrack-dialog__link" id="soundtrack-link" href="https://open.spotify.com/track/2Zo1PcszsT9WQ0ANntJbID" target="_blank" rel="noopener noreferrer">Open “Feather” in Spotify <span aria-hidden="true">↗</span></a>
-      </div>
-    </dialog>
-
-    <audio id="birthday-audio" preload="metadata"></audio>
     <div class="toast" id="status-toast" role="status" aria-live="polite"></div>
 
     <noscript>
