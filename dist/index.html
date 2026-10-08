@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="The Summer She Turned Fifteen — Doji's cinematic fifteenth-birthday story."
+    />
+    <meta name="theme-color" content="#fff9f1" />
+    <title>Doji's Fifteenth Summer</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600&amp;family=Nanum+Pen+Script&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="content.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#story">Skip to the story</a>
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <header class="site-nav" id="site-nav">
+      <a class="site-nav__mark" href="#story" aria-label="The Summer She Turned Fifteen, home">
+        <span>season</span><strong data-bind="sister.age">15</strong>
+      </a>
+      <nav class="site-nav__links" aria-label="Story chapters">
+        <a href="#timeline">Our story</a>
+        <a href="#scrapbook">Memories</a>
+        <a href="#messages">15 notes</a>
+        <a href="#letter">A wish</a>
+      </nav>
+      <button class="music-control" id="music-toggle" type="button" aria-pressed="false" aria-haspopup="dialog">
+        <span class="music-control__disc" aria-hidden="true">♪</span>
+        <span class="music-control__text">Feather · Spotify</span>
+      </button>
+    </header>
+
+    <div class="reading-progress" aria-hidden="true">
+      <span id="reading-progress-fill"></span>
+    </div>
+
+    <main>
+      <section class="season-hero chapter" id="story" aria-labelledby="hero-title">
+        <img
+          class="season-hero__scenery"
+          src="assets/summer-cove-hero.jpg"
+          alt="A sunlit coastal cove at sunset framed with blush flowers"
+          width="1672"
+          height="941"
+          fetchpriority="high"
+        />
+        <div class="season-hero__wash" aria-hidden="true"></div>
+        <div class="season-hero__frame" aria-hidden="true"></div>
+
+        <div class="season-hero__nav-spacer" aria-hidden="true"></div>
+        <div class="season-hero__copy">
+          <p class="chapter-kicker hero-stagger">Season <span data-bind="sister.age">15</span> · Birthday Edition</p>
+          <h1 class="hero-stagger" id="hero-title">
+            The Summer She<br />
+            <em>Turned Fifteen</em>
+          </h1>
+          <p class="season-hero__starring hero-stagger">
+            Starring <span data-bind="sister.displayName">[Her Name]</span>
+          </p>
+          <p class="season-hero__subtitle hero-stagger">A birthday film in nine memories, made especially for Doji.</p>
+          <a class="story-button hero-stagger" id="start-story" href="#timeline" aria-haspopup="dialog">
+            <span>Play Doji's birthday film</span><i aria-hidden="true">▶</i>
+          </a>
+          <p class="soundtrack-credit hero-stagger"><span aria-hidden="true">♪</span> soundtrack pick · Feather by Sabrina Carpenter</p>
+        </div>
+
+        <div class="hero-polaroids" id="hero-polaroids" role="group" aria-label="Featured birthday photos"></div>
+
+        <span class="hero-doodle hero-doodle--one" aria-hidden="true">☆</span>
+        <span class="hero-doodle hero-doodle--two" aria-hidden="true">✧</span>
+        <span class="hero-handwriting" aria-hidden="true">happy 15th ♡</span>
+      </section>
+
+      <section class="timeline chapter paper-section" id="timeline" aria-labelledby="timeline-title">
+        <div class="floating-petal floating-petal--one" aria-hidden="true"></div>
+        <div class="floating-petal floating-petal--two" aria-hidden="true"></div>
+        <div class="chapter-heading chapter-heading--center reveal">
+          <p class="chapter-kicker">Chapter one · the recap</p>
+          <h2 id="timeline-title">Previously, in your life…</h2>
+          <div class="sun-divider" aria-hidden="true"><i></i><span>☀</span><i></i></div>
+          <p>From the very first scenes to the person you are becoming.</p>
+        </div>
+
+        <div class="timeline-shell reveal">
+          <button class="round-control timeline-control timeline-control--prev" id="timeline-prev" type="button" aria-label="Previous memories">
+            <span aria-hidden="true">←</span>
+          </button>
+          <div class="film-reel" id="timeline-viewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Birthday memory timeline">
+            <div class="film-reel__perforations" aria-hidden="true"></div>
+            <div class="film-reel__track" id="timeline-track"></div>
+            <div class="film-reel__perforations film-reel__perforations--bottom" aria-hidden="true"></div>
+          </div>
+          <button class="round-control timeline-control timeline-control--next" id="timeline-next" type="button" aria-label="Next memories">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <p class="swipe-hint"><span aria-hidden="true">↔</span> swipe through the years</p>
+      </section>
+
+      <section class="scrapbook chapter" id="scrapbook" aria-labelledby="scrapbook-title">
+        <div class="chapter-heading reveal">
+          <p class="chapter-kicker">Chapter two · the scrapbook</p>
+          <h2 id="scrapbook-title">Our favourite <em>scenes</em></h2>
+          <p>Some days deserve a permanent place in the memory book.</p>
+        </div>
+
+        <div class="scrapbook-toolbar reveal">
+          <p><span aria-hidden="true">✦</span> Drag the photos around on desktop</p>
+          <button class="tidy-button" id="scrapbook-tidy" type="button">
+            <span aria-hidden="true">↺</span> Tidy up
+          </button>
+        </div>
+
+        <div class="scrapbook-board reveal" id="scrapbook-board">
+          <div class="paper-scrap paper-scrap--peach" aria-hidden="true">the good stuff</div>
+          <div class="paper-scrap paper-scrap--blue" aria-hidden="true">keep this forever</div>
+          <span class="board-doodle board-doodle--stars" aria-hidden="true">✦　☆　✧</span>
+          <span class="board-doodle board-doodle--flower" aria-hidden="true">❀</span>
+          <div id="scrapbook-cards" role="group" aria-label="Interactive scrapbook photos"></div>
+          <div id="bonus-scene-slot"></div>
+        </div>
+      </section>
+
+      <section class="reasons chapter" id="messages" aria-labelledby="messages-title">
+        <div class="reasons__stars" aria-hidden="true"></div>
+        <div class="chapter-heading chapter-heading--center reveal">
+          <p class="chapter-kicker chapter-kicker--light">Chapter three · a constellation for you</p>
+          <h2 id="messages-title">15 things that make you, <em>you</em></h2>
+          <p>A little reminder of how loved you are.</p>
+          <div class="message-progress" aria-live="polite">
+            <strong id="opened-count">0</strong> of 15 opened
+            <span class="message-progress__track" aria-hidden="true"><i id="message-progress-fill"></i></span>
+          </div>
+        </div>
+        <div class="message-stars" id="message-stars" role="group" aria-label="Fifteen birthday messages"></div>
+        <a class="skip-to-letter" href="#letter">Continue to your letter <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <section class="letter-finale chapter paper-section" id="letter" aria-labelledby="letter-title">
+        <div class="chapter-heading chapter-heading--center reveal">
+          <p class="chapter-kicker">Final chapter · written with love</p>
+          <h2 id="letter-title">A letter for your <em>next chapter</em></h2>
+        </div>
+
+        <div class="letter-stage reveal" id="letter-stage">
+          <button class="envelope" id="envelope-button" type="button" aria-expanded="false" aria-controls="birthday-letter">
+            <span class="envelope__back" aria-hidden="true"></span>
+            <span class="envelope__letter-preview" aria-hidden="true"></span>
+            <span class="envelope__front" aria-hidden="true"></span>
+            <span class="envelope__flap" aria-hidden="true"></span>
+            <span class="envelope__seal" aria-hidden="true" data-bind="sister.age">15</span>
+            <span class="envelope__address">
+              <strong data-bind="sister.displayName">[Her Name]</strong>
+              <small>for your next chapter</small>
+            </span>
+          </button>
+
+          <article class="birthday-letter" id="birthday-letter" aria-hidden="true">
+            <p class="birthday-letter__date" data-bind="birthdayDateDisplay"></p>
+            <p class="birthday-letter__dear">Dear <span data-bind="sister.displayName">[Her Name]</span>,</p>
+            <div class="birthday-letter__body" id="letter-copy"></div>
+            <p class="birthday-letter__signoff" data-bind="sender.signoff">Love, always</p>
+            <p class="birthday-letter__name" data-bind="sender.name">[Your Name]</p>
+          </article>
+        </div>
+
+        <div class="celebration reveal" id="celebration">
+          <p class="chapter-kicker">One last scene</p>
+          <h3>Close your eyes. Make it a good one.</h3>
+
+          <div class="cake" id="birthday-cake" role="img" aria-label="A birthday cake with fifteen lit candles">
+            <div class="candles" aria-hidden="true">
+              <span class="candle" style="--i:0"><i></i></span>
+              <span class="candle" style="--i:1"><i></i></span>
+              <span class="candle" style="--i:2"><i></i></span>
+              <span class="candle" style="--i:3"><i></i></span>
+              <span class="candle" style="--i:4"><i></i></span>
+              <span class="candle" style="--i:5"><i></i></span>
+              <span class="candle" style="--i:6"><i></i></span>
+              <span class="candle" style="--i:7"><i></i></span>
+              <span class="candle" style="--i:8"><i></i></span>
+              <span class="candle" style="--i:9"><i></i></span>
+              <span class="candle" style="--i:10"><i></i></span>
+              <span class="candle" style="--i:11"><i></i></span>
+              <span class="candle" style="--i:12"><i></i></span>
+              <span class="candle" style="--i:13"><i></i></span>
+              <span class="candle" style="--i:14"><i></i></span>
+            </div>
+            <div class="cake__top"><span aria-hidden="true">♡</span></div>
+            <div class="cake__layer cake__layer--top"></div>
+            <div class="cake__layer cake__layer--bottom"></div>
+            <div class="cake__plate"></div>
+          </div>
+
+          <button class="wish-button" id="wish-button" type="button">
+            <span>Make a wish</span><i aria-hidden="true">✦</i>
+          </button>
+          <button class="replay-button" id="replay-button" type="button" hidden>
+            <span aria-hidden="true">↺</span> Replay the moment
+          </button>
+
+          <div class="birthday-reveal" id="birthday-reveal" aria-live="polite" hidden>
+            <p>Happy 15th birthday,</p>
+            <strong><span data-bind="sister.displayName">[Her Name]</span>.</strong>
+            <span>Season 15 has only just begun.</span>
+          </div>
+          <div class="confetti" id="confetti" aria-hidden="true"></div>
+        </div>
+
+        <footer class="story-footer">
+          <span>The Summer She Turned Fifteen</span>
+          <span>Made with love · <span data-bind="sister.age">15</span> / ∞</span>
+        </footer>
+      </section>
+    </main>
+
+    <dialog class="episode-player" id="episode-player" aria-labelledby="episode-title">
+      <div class="episode-player__screen">
+        <div class="episode-player__shots" aria-hidden="true">
+          <img class="episode-player__shot is-current" id="episode-shot-a" alt="" />
+          <img class="episode-player__shot" id="episode-shot-b" alt="" />
+        </div>
+        <div class="episode-player__wash" aria-hidden="true"></div>
+        <div class="episode-player__letterbox" aria-hidden="true"></div>
+
+        <header class="episode-player__topbar">
+          <p><span>Season 15</span><strong>The Doji Cut</strong></p>
+          <button class="episode-player__close" id="episode-close" type="button" aria-label="Close Doji's birthday film">×</button>
+        </header>
+
+        <div class="episode-player__copy" aria-live="polite" aria-atomic="true">
+          <p class="episode-player__kicker" id="episode-kicker">Birthday edition · opening titles</p>
+          <h2 id="episode-title">The Summer She Turned Fifteen</h2>
+          <p class="episode-player__caption" id="episode-caption">Starring Doji.</p>
+        </div>
+
+        <div class="episode-player__hud">
+          <div class="episode-player__progress" id="episode-progress" aria-hidden="true"></div>
+          <div class="episode-player__controls">
+            <div class="episode-player__transport" role="group" aria-label="Birthday film controls">
+              <button id="episode-prev" type="button" aria-label="Previous scene">←</button>
+              <button class="episode-player__play" id="episode-play" type="button" aria-pressed="true">
+                <span aria-hidden="true">Ⅱ</span><strong>Pause</strong>
+              </button>
+              <button id="episode-next" type="button" aria-label="Next scene">→</button>
+              <span class="episode-player__counter" id="episode-counter">01 / 11</span>
+            </div>
+            <button class="episode-player__soundtrack" id="episode-soundtrack" type="button" aria-haspopup="dialog">
+              <span aria-hidden="true">♪</span><span><small>Optional soundtrack</small><strong>Feather · Sabrina Carpenter</strong></span>
+            </button>
+            <button class="episode-player__explore" id="episode-explore" type="button">Explore the full story <span aria-hidden="true">↓</span></button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="photo-viewer" id="photo-viewer" aria-labelledby="viewer-caption">
+      <div class="photo-viewer__panel">
+        <button class="viewer-control viewer-control--close" id="viewer-close" type="button" aria-label="Close photo viewer">×</button>
+        <button class="viewer-control viewer-control--prev" id="viewer-prev" type="button" aria-label="Previous photo">←</button>
+        <figure>
+          <div class="photo-viewer__image-wrap">
+            <img id="viewer-image" alt="" />
+            <div class="image-placeholder" id="viewer-placeholder" hidden>
+              <span>Photo coming soon</span>
+            </div>
+          </div>
+          <figcaption aria-live="polite" aria-atomic="true">
+            <p id="viewer-chapter"></p>
+            <h2 id="viewer-caption"></h2>
+            <p id="viewer-memory"></p>
+          </figcaption>
+        </figure>
+        <button class="viewer-control viewer-control--next" id="viewer-next" type="button" aria-label="Next photo">→</button>
+        <p class="photo-viewer__count" id="viewer-count"></p>
+      </div>
+    </dialog>
+
+    <dialog class="message-dialog" id="message-dialog" aria-labelledby="message-dialog-title">
+      <div class="message-dialog__card">
+        <button class="dialog-close" id="message-dialog-close" type="button" aria-label="Close birthday message">×</button>
+        <span class="message-dialog__star" aria-hidden="true">✦</span>
+        <p id="message-dialog-number"></p>
+        <h2 id="message-dialog-title"></h2>
+        <p id="message-dialog-copy"></p>
+        <span class="message-dialog__hint">a little note, just for you</span>
+      </div>
+    </dialog>
+
+    <dialog class="bonus-dialog" id="bonus-dialog" aria-labelledby="bonus-title">
+      <div class="bonus-dialog__card">
+        <button class="dialog-close" id="bonus-close" type="button" aria-label="Close deleted scene">×</button>
+        <p class="chapter-kicker">Deleted scene</p>
+        <img id="bonus-image" alt="" />
+        <h2 id="bonus-title">The sibling archives</h2>
+        <p id="bonus-caption"></p>
+      </div>
+    </dialog>
+
+    <dialog class="soundtrack-dialog" id="soundtrack-dialog" aria-labelledby="soundtrack-title">
+      <div class="soundtrack-dialog__card">
+        <button class="dialog-close" id="soundtrack-close" type="button" aria-label="Close soundtrack player">×</button>
+        <p class="chapter-kicker">Doji's soundtrack pick</p>
+        <h2 id="soundtrack-title">Feather</h2>
+        <p class="soundtrack-dialog__artist">Sabrina Carpenter</p>
+        <div class="soundtrack-dialog__embed" id="soundtrack-embed">
+          <button class="soundtrack-dialog__load" id="soundtrack-load" type="button">
+            <span aria-hidden="true">♪</span>
+            Load the official Spotify player
+          </button>
+        </div>
+        <p class="soundtrack-dialog__note">Spotify playback is optional and separate from the birthday film. It may require a Spotify login, and loading the player may set Spotify cookies.</p>
+        <a class="soundtrack-dialog__link" id="soundtrack-link" href="https://open.spotify.com/track/2Zo1PcszsT9WQ0ANntJbID" target="_blank" rel="noopener noreferrer">Open “Feather” in Spotify <span aria-hidden="true">↗</span></a>
+      </div>
+    </dialog>
+
+    <audio id="birthday-audio" preload="metadata"></audio>
+    <div class="toast" id="status-toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <div class="noscript">Please turn on JavaScript to play this birthday story.</div>
+    </noscript>
+  </body>
+</html>

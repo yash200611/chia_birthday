@@ -1,0 +1,10 @@
+{
+  "name": "fifteen-like-a-summer-scene",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cinematic fifteenth-birthday photo story.",
+  "scripts": {
+    "check": "node scripts/validate-site.mjs",
+    "start": "python3 -m http.server 4173 -d dist"
+  }
+}
